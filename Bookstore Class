@@ -7,8 +7,10 @@ public class Bookstore {
     private ArrayList<Book> inventory = new ArrayList<>();
 
     public void addBook(Book book) {
-        for (Book b : inventory) {
+        for (int i = 0; i < inventory.size(); i++) {
+            Book b = inventory.get(i);
             if (b.getISBN().equals(book.getISBN())) {
+                b.setQuantity(b.getQuantity() + 1);
                 System.out.println("Book with the same ISBN already exists. Consider updating the quantity.");
                 return;
             }
@@ -35,7 +37,11 @@ public class Bookstore {
             return;
         }
         for (Book b : inventory) {
-            System.out.println(b);
+            System.out.println("Title: " + b.getTitle() +
+                    ", Author: " + b.getAuthor() +
+                    ", ISBN: " + b.getISBN() +
+                    ", Price: " + b.getPrice() +
+                    ", Quantity: " + b.getQuantity());
         }
     }
 
