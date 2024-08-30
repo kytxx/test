@@ -1,0 +1,72 @@
+package myPackage;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Bookstore {
+    private ArrayList<Book> inventory = new ArrayList<>();
+
+    public void addBook(Book book) {
+        for (Book b : inventory) {
+            if (b.getISBN().equals(book.getISBN())) {
+                System.out.println("Book with the same ISBN already exists. Consider updating the quantity.");
+                return;
+            }
+        }
+        inventory.add(book);
+        System.out.println("Book added successfully.");
+    }
+    
+    public void updateBook(String ISBN, double newPrice, int newQuantity) {
+        for (Book b : inventory) {
+            if (b.getISBN().equals(ISBN)) {
+                b.setPrice(newPrice);
+                b.setQuantity(newQuantity);
+                System.out.println("Book updated successfully.");
+                return;
+            }
+        }
+        System.out.println("Book not found in the inventory.");
+    }
+
+    public void displayBooks() {
+        if (inventory.isEmpty()) {
+            System.out.println("No books in the inventory.");
+            return;
+        }
+        for (Book b : inventory) {
+            System.out.println(b);
+        }
+    }
+
+    public void displayBooksByAuthor(String author) {
+        for (Book b : inventory) {
+            if (b.getAuthor().equalsIgnoreCase(author)) {
+                System.out.println(b);
+            }
+        }
+    }
+
+    public void displayBooksUnderPrice(double price) {
+        for (Book b : inventory) {
+            if (b.getPrice() < price) {
+                System.out.println(b);
+            }
+        }
+    }
+
+    public void searchBookByISBN(String ISBN) {
+        for (Book b : inventory) {
+            if (b.getISBN().equals(ISBN)) {
+                System.out.println(b);
+                return;
+            }
+        }
+        System.out.println("Book not found.");
+    }
+}
+
+
+    
+    
+
