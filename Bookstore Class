@@ -25,7 +25,7 @@ public class Bookstore {
                 b.setPrice(newPrice);
                 b.setQuantity(newQuantity);
                 System.out.println("Book updated successfully.");
-                
+                return;
             }
         }
         System.out.println("Book not found in the inventory.");
