@@ -1,0 +1,98 @@
+package myPackage;
+
+import java.util.Scanner;
+
+public class Main {
+    
+    public static void main(String[] args) {
+        Bookstore bookstore = new Bookstore();
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\nBookstore Inventory Management System");
+            System.out.println("1. Add a new book");
+            System.out.println("2. Update an existing book");
+            System.out.println("3. Display all books");
+            System.out.println("4. Display books by author");
+            System.out.println("5. Display books under a certain price");
+            System.out.println("6. Search for a book by ISBN");
+            System.out.println("7. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); 
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter title: ");
+                    String title = scanner.nextLine();
+                    System.out.print("Enter author: ");
+                    String author = scanner.nextLine();
+                    System.out.print("Enter ISBN: ");
+                    String ISBN = scanner.nextLine();
+                    System.out.print("Enter price: ");
+                    double price = scanner.nextDouble();
+                    System.out.print("Enter quantity: ");
+                    int quantity = scanner.nextInt();
+
+                    try {
+                        Book newBook = new Book(title, author, ISBN, price, quantity);
+                        bookstore.addBook(newBook);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+
+                case 2:
+                    System.out.print("Enter ISBN of the book to update: ");
+                    ISBN = scanner.nextLine();
+                    System.out.print("Enter new price: ");
+                    double newPrice = scanner.nextDouble();
+                    System.out.print("Enter new quantity: ");
+                    int newQuantity = scanner.nextInt();
+
+                    try {
+                        bookstore.updateBook(ISBN, newPrice, newQuantity);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+
+                case 3:
+                    bookstore.displayBooks();
+                    break;
+
+                case 4:
+                    System.out.print("Enter author name: ");
+                    author = scanner.nextLine();
+                    bookstore.displayBooksByAuthor(author);
+                    break;
+
+                case 5:
+                    System.out.print("Enter price limit: ");
+                    price = scanner.nextDouble();
+                    bookstore.displayBooksUnderPrice(price);
+                    break;
+
+                case 6:
+                    System.out.print("Enter ISBN to search: ");
+                    ISBN = scanner.nextLine();
+                    bookstore.searchBookByISBN(ISBN);
+                    break;
+
+                case 7:
+                    running = false;
+                    System.out.println("Exiting the system. Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+        scanner.close();
+    }
+}
+
+    }
+    
+}
