@@ -1,0 +1,77 @@
+#include <iostream>
+#include <windows.h>
+
+using namespace std;
+
+PROCESS_INFORMATION pi; // Global process info to track child process
+
+void createProcess() {
+    STARTUPINFO si = { sizeof(si) };
+    BOOL success = CreateProcess(NULL, "C:\\Windows\\System32\\notepad.exe", NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+    if (!success) {
+        cout << "Failed to create process." << endl;
+    } else {
+        cout << "New process created with PID: " << pi.dwProcessId << endl;
+    }
+}
+
+void monitorProcess() {
+    if (pi.hProcess != NULL) {
+        DWORD exitCode;
+        GetExitCodeProcess(pi.hProcess, &exitCode);
+        if (exitCode == STILL_ACTIVE) {
+            cout << "Process ID: " << pi.dwProcessId << ", State: Running" << endl;
+        } else {
+            cout << "Process ID: " << pi.dwProcessId << ", State: Terminated" << endl;
+        }
+    } else {
+        cout << "No process to monitor." << endl;
+    }
+}
+
+void terminateProcess() {
+    if (pi.hProcess != NULL) {
+        if (TerminateProcess(pi.hProcess, 0)) {
+            cout << "Process " << pi.dwProcessId << " terminated successfully." << endl;
+            CloseHandle(pi.hProcess);
+            CloseHandle(pi.hThread);
+            pi.hProcess = NULL; // Reset handle after termination
+        } else {
+            cout << "Failed to terminate process." << endl;
+        }
+    } else {
+        cout << "No process to terminate." << endl;
+    }
+}
+
+int main() {
+    int option;
+
+    while (true) {
+    	cout << "\nProcess Management System" << endl;
+        cout << "Option 1: Create Child Process\n";
+        cout << "Option 2: Monitor Process\n";
+        cout << "Option 3: Terminate Process\n";
+        cout << "Option 4: Exit\n";
+        cout << "Select an option: ";
+        cin >> option;
+
+        switch (option) {
+            case 1:
+                createProcess();
+                break;
+            case 2:
+                monitorProcess();
+                break;
+            case 3:
+                terminateProcess();
+                break;
+            case 4:
+                return 0;
+            default:
+                cout << "Invalid option. Try again." << endl;
+        }
+    }
+
+    return 0;
+}
